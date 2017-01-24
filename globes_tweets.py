@@ -34,6 +34,8 @@ def read_tweets(fname, simple=True):
     print str(tweets[0:10])
     print len(tweets)
 
+    fname.close()
+
     return tweets
 
 
