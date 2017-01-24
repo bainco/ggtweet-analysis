@@ -4,7 +4,6 @@ from nltk.tokenize import TweetTokenizer
 # This might be useful:
 # http://www.nltk.org/howto/twitter.html
 
-
 def read_tweets_with_metadata(fname):
     """ Alternate method to read in the tweets with metadata text file. This
     also returns a list of tweets, but instead of just strings, they're
@@ -23,7 +22,7 @@ def read_tweets_with_metadata(fname):
     # Return reverse since the file was read in newest to oldest
     return tweets.reverse()
 
-def read_tweets(fname, simple=True):
+def read_tweets(fname):
 
     tweets = []
     tweets_file = open(fname, 'rb')
@@ -31,16 +30,14 @@ def read_tweets(fname, simple=True):
     for line in tweets_file:
         tweets.append(line[1:len(line) - 2])
 
-    print str(tweets[0:10])
-    print len(tweets)
+    #print str(tweets[0:10])
+    #print len(tweets)
 
     return tweets
-
 
 # TODO:
 # At some point in here we need to extract links (cause that'll be annoying)
 # Links are either retweets or photos right?
-
 
 def tokenize(a_tweet):
     """ Method to pass a sentence to NLTK and tokenize it.
@@ -51,6 +48,5 @@ def tokenize(a_tweet):
     tokens = tknzr.tokenize(a_tweet)
     return tokens
 
-
-tweets = read_tweets('globestweets.txt')
-print tokenize(tweets[0])
+#tweets = read_tweets('globestweets.txt')
+#print tokenize(tweets[0])
