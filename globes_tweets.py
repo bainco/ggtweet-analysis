@@ -16,8 +16,8 @@ def read_tweets_with_metadata(fname):
 
     with open(fname,'r') as f:
         reader=csv.reader(f,delimiter='\t')
-        for text, tweeter, thingA, thingB, timestamp in reader:
-            theTweet = {"text": text, "tweeter": tweeter, "thingA":thingA, "thingB":thingB, "timestamp":timestamp}
+        for text, tweeter, userIDString, tweetIDString, timestamp in reader:
+            theTweet = {"text": text, "tweeter": tweeter, "userIDString":userIDString, "tweetIDString":tweetIDString, "timestamp":timestamp}
             tweets.append(theTweet)
 
     # Return reverse since the file was read in newest to oldest
