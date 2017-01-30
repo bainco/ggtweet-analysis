@@ -33,7 +33,7 @@ def read_tweets(fname):
     #print str(tweets[0:10])
     #print len(tweets)
 
-    fname.close()
+    tweets_file.close()
 
     return tweets
 
