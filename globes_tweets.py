@@ -1,4 +1,4 @@
-import sys, csv
+import sys, csv, itertools
 from nltk.tokenize import TweetTokenizer
 
 # This might be useful:
@@ -14,13 +14,16 @@ def read_tweets_with_metadata(fname):
     tweets = []
 
     with open(fname,'r') as f:
-        reader=csv.reader(f,delimiter='\t')
-        for text, tweeter, userIDString, tweetIDString, timestamp in reader:
-            theTweet = {"text": text, "tweeter": tweeter, "userIDString":userIDString, "tweetIDString":tweetIDString, "timestamp":timestamp}
-            tweets.append(theTweet)
-
-    # Return reverse since the file was read in newest to oldest
-    return tweets.reverse()
+        reader1,reader2=itertools.tee(csv.reader(f,delimiter='\t'))
+        del reader1
+        for row in reader2:
+            if len(row) == 5:
+                theTweet = {"text": row[0], "tweeter": row[1], "userIDString":row[2], "tweetIDString":row[3], "timestamp":row[4]}
+                tweets.append(theTweet)
+            elif len(row) != 0:
+                theTweet = {"text": row[0], "tweeter": '', "userIDString":'', "tweetIDString":'', "timestamp":''}
+                tweets.append(theTweet)
+    return tweets
 
 def read_md_tweets_with_train(fname):
 
@@ -105,7 +108,7 @@ def read_tweets(fname):
     #print str(tweets[0:10])
     #print len(tweets)
 
-    fname.close()
+    tweets_file.close()
 
     return tweets
 
