@@ -61,7 +61,7 @@ def addTokensToDict(d, t_tokens):
         if t == u'\u201d':
             return d
         t = str(t).lower()
-        print "T:" + t + ", ord:" + str(ord(t[0]))
+        # print "T:" + t + ", ord:" + str(ord(t[0]))
         if t in d:
             d[t]+= 1
         else:
