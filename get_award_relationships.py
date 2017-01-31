@@ -31,6 +31,6 @@ def main():
     currently returns dict of len 4202
     """
     tweets = gt.read_tweets_with_metadata('goldenglobes.tab')
-    with open('nominees.json') as categories_file:
-        categories = json.load(categories_file).keys()
+    with open('categories.json') as categories_file:
+        categories = json.load(categories_file)
     return get_award_relationships(tweets, categories)
