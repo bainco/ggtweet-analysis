@@ -5,64 +5,10 @@ from nltk.tree import Tree
 from nltk.chunk import ne_chunk
 from nltk.tokenize import TweetTokenizer
 from itertools import chain
+import time
 #import imdb
 
-# Adapted from get_first_person.py from IMDbPY
-# Not currently used
-def lookup_name(aName):
-    i = imdb.IMDb()
-
-    in_encoding = sys.stdin.encoding or sys.getdefaultencoding()
-    out_encoding = sys.stdout.encoding or sys.getdefaultencoding()
-
-    name = unicode(aName, in_encoding, 'replace')
-    try:
-        # Do the search, and get the results (a list of Person objects).
-        results = i.search_person(aName)
-
-    except imdb.IMDbError, e:
-        print "Probably you're not connected to Internet.  Complete error report:"
-        print e
-        sys.exit(3)
-
-    if not results:
-        print 'No matches for "%s", sorry.' % aName.encode(out_encoding, 'replace')
-        sys.exit(0)
-
-    # Print only the first result.
-    print '    Best match for "%s"' % aName.encode(out_encoding, 'replace')
-
-    # This is a Person instance.
-    person = results[0]
-
-    print person
-    # So far the Person object only contains basic information like the
-    # name; retrieve main information:
-
-    # THIS METHOD GETS EXTRA STUFF. What movie? Years, etc.
-
-    #i.update(person)
-
-    #print person.summary().encode(out_encoding, 'replace')
-
-def get_names(aTweet):
-    """
-
-    returns: list of dictionaries where each dictionary has key 'name'
-    """
-
-    ## TODO: In the future, I'd like this to also tag possible roles in
-    #  movies (e.g. screen writer, director, etc.)
-
-    tokens = tokenize(aTweet)
-    taggedTokens = pos_tag(tokens)
-
-    PNchunks = [chunk for chunk in ne_chunk(taggedTokens) if isinstance(chunk, Tree)]
-
-    possible_names = [ " ".join(pair) for pair in nltk.bigrams([i[0] for i in list(chain(*[chunk.leaves() for chunk in PNchunks]))])]
-
-    return possible_names
-
+BABY_NAMES = []
 
 def tokenize(aTweet):
     """ Method to pass a sentence to NLTK and tokenize it.
@@ -70,17 +16,32 @@ def tokenize(aTweet):
     """
     tknzr = TweetTokenizer()
     tokens = tknzr.tokenize(aTweet)
+
     return tokens
+
+def get_names(aTweet):
+    print aTweet
+    possible_names = set()
+    tokens = tokenize(aTweet)
+    for i in range(len(tokens) - 1):
+        if (tokens[i] in BABY_NAMES) and tokens[i+1][0].isupper() and tokens[i+1].isalnum():
+            possible_names.add((" ".join([tokens[i], tokens[i + 1]])))
+
+    return possible_names
+
 
 if __name__ == "__main__":
     #do the thing
     tweets = read_tweets_with_metadata('goldenglobes.tab')
 
-    # REQUIRES NLTK with AVERAGED PERCEPTRON TAGGER, Tokenizer, and a couple
-    # other NLTK downloads. Basically, if you get an NLTK error, just open up
-    # a python console, and run nltk.download() and download the things it's mad
-    # at you for.
+    # Load in the baby names
+    with open('yob2015.txt','r') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            BABY_NAMES.append(row[0])
 
+    BABY_NAMES = BABY_NAMES[:1000]
     # EXAMPLE:
-    aTweet = tweets[0]['text']
-    print get_names(aTweet)
+    for aTweet in tweets:
+        if aTweet['text'][:2] != 'RT':
+            print get_names(aTweet['text'])
