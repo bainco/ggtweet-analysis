@@ -129,7 +129,7 @@ def tokenize(a_tweet):
     # print str(tokens)
     return tokens
 
-tweets = read_md_tweets_with_train('globestweets.txt')
-res = train_fact_alt(tweets)
-dec = classifyTweet('"RT @goldenglobes: Congratulations to Damien Chazelle - Best Screenplay - La La Land (@LaLaLand) - #GoldenGlobes"', res[0], res[1], res[2])
-print str(dec)
+# tweets = read_md_tweets_with_train('globestweets.txt')
+# res = train_fact_alt(tweets)
+# dec = classifyTweet('"RT @goldenglobes: Congratulations to Damien Chazelle - Best Screenplay - La La Land (@LaLaLand) - #GoldenGlobes"', res[0], res[1], res[2])
+# print str(dec)
