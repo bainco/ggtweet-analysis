@@ -1,12 +1,6 @@
-import csv, sys, nltk
+import csv
 from globes_tweets import read_tweets_with_metadata
-from nltk.tag import pos_tag
-from nltk.tree import Tree
-from nltk.chunk import ne_chunk
-from nltk.tokenize import TweetTokenizer
-from itertools import chain
-import time
-#import imdb
+from nltk import TweetTokenizer
 
 BABY_NAMES = []
 
@@ -33,18 +27,20 @@ def get_names(aTweet):
     for i in range(len(tokens) - 1):
         if (tokens[i] in BABY_NAMES) and tokens[i+1][0].isupper() and tokens[i+1].isalnum():
             possible_names.add((" ".join([tokens[i], tokens[i + 1]])))
-        elif tokens[i][0] == "@":
+        elif (tokens[i][0] == "@"):
             possible_names.add(tokens[i])
 
     return possible_names
 
 
 if __name__ == "__main__":
-    #do the thing
+
+    # ONLY RUNS IF YOU RUN AS THE MAIN FILE (i.e. execfile or python name_proc.py)
+    # Load in tweets
     tweets = read_tweets_with_metadata('goldenglobes.tab')
-    #BABY_NAMES = BABY_NAMES[:1000]
+
+    # Initilaize names list
+    initialize_names()
+
+    # print a test result
     print get_names("Vince Vaughn hello hellow hello.")
-    # EXAMPLE:
-    for aTweet in tweets:
-        if aTweet['text'][:2] != 'RT':
-            pass
