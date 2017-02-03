@@ -16,12 +16,16 @@ def get_award_relationships(tweets, categories):
     """
     Takes in the tweets as dictionaries returned by read_tweets_with_metadata
     And categories as a list
-    Returns: dictionary of tweetIDString to award
+    Returns: dictionary of award to a list of tweets
     """
     award_relationships = {}
     for tweet in tweets:
         if  get_award_relationship(tweet, categories) != None:
-            award_relationships[tweet['tweetIDString']] = get_award_relationship(tweet, categories)
+            ret_category = get_award_relationship(tweet, categories)
+            if ret_category in award_relationships:
+                award_relationships[ret_category].append(tweet)
+            else:
+                award_relationships[ret_category] = [tweet]
     return award_relationships
 
 
