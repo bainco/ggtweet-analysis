@@ -2,7 +2,6 @@ import globes_tweets as gt
 import get_award_relationships as ga
 import name_proc as np
 import json
-import time
 
 def get_presenters(award_to_tweets):
     categories_to_presenters = {}
@@ -16,7 +15,6 @@ def get_presenters_of_category(tweets):
     presenter_totals = {}
     presenter_keywords = ['presents', 'present', 'presenting', 'introduce', 'introduces', 'introducing', 'presenters', 'presenter']
     for tweet in tweets:
-        start = time.time()
         if any(keyword in tweet['text'] for keyword in presenter_keywords):
             for name in np.get_names(tweet['text']):
                 if name in presenter_totals.keys():
