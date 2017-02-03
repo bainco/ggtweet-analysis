@@ -1,4 +1,5 @@
 from twython import Twython
+from twython.exceptions import TwythonError
 from TWITTER_API_KEY import *
 import json
 
@@ -12,6 +13,10 @@ def lookup_handle(aHandle):
 
     twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
 
-    result = twitter.show_user(screen_name=theHandle)
+    try:
+        result = twitter.show_user(screen_name=theHandle)
 
-    print ''.join(ch for ch in result['name'].encode('utf-8').strip() if ch.isalnum() or ch.isspace())
+    except:
+        return ""
+
+    return ''.join(ch for ch in result['name'].encode('utf-8').strip() if ch.isalnum() or ch.isspace())
