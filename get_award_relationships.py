@@ -16,21 +16,21 @@ def get_award_relationships(tweets, categories):
     """
     Takes in the tweets as dictionaries returned by read_tweets_with_metadata
     And categories as a list
-    Returns: dictionary of tweetIDString to award
+    Returns: dictionary of award to a list of tweets
     """
     award_relationships = {}
     for tweet in tweets:
         if  get_award_relationship(tweet, categories) != None:
-            award_relationships[tweet['tweetIDString']] = get_award_relationship(tweet, categories)
+            ret_category = get_award_relationship(tweet, categories)
+            if ret_category in award_relationships:
+                award_relationships[ret_category].append(tweet['text'])
+            else:
+                award_relationships[ret_category] = [tweet['text']]
     return award_relationships
 
 
-def main():
-    """
-    function for example usage; not code for actual project (would need to parameterize)
-    currently returns dict of len 4202
-    """
+if __name__ == "__main__":
     tweets = gt.read_tweets_with_metadata('goldenglobes.tab')
     with open('categories.json') as categories_file:
         categories = json.load(categories_file)
-    return get_award_relationships(tweets, categories)
+    print get_award_relationships(tweets, categories)
