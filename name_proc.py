@@ -43,7 +43,8 @@ if __name__ == "__main__":
     #do the thing
     tweets = read_tweets_with_metadata('goldenglobes.tab')
     #BABY_NAMES = BABY_NAMES[:1000]
-    print get_names("Vince Vaughn hello hellow hello.")
+    initialize_names()
+    print get_names("Vince Vaughn hello hellow hello Alex Chen.")
     # EXAMPLE:
     for aTweet in tweets:
         if aTweet['text'][:2] != 'RT':

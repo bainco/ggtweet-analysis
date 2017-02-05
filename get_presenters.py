@@ -15,8 +15,8 @@ def get_presenters_of_category(tweets):
     presenter_totals = {}
     presenter_keywords = ['presents', 'present', 'presenting', 'introduce', 'introduces', 'introducing', 'presenters', 'presenter']
     for tweet in tweets:
-        if any(keyword in tweet['text'] for keyword in presenter_keywords):
-            for name in np.get_names(tweet['text']):
+        if any(keyword in tweet for keyword in presenter_keywords):
+            for name in np.get_names(tweet):
                 if name in presenter_totals.keys():
                     presenter_totals[name] += 1
                 else:

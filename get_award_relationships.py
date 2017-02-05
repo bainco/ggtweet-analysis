@@ -23,18 +23,14 @@ def get_award_relationships(tweets, categories):
         if  get_award_relationship(tweet, categories) != None:
             ret_category = get_award_relationship(tweet, categories)
             if ret_category in award_relationships:
-                award_relationships[ret_category].append(tweet)
+                award_relationships[ret_category].append(tweet['text'])
             else:
-                award_relationships[ret_category] = [tweet]
+                award_relationships[ret_category] = [tweet['text']]
     return award_relationships
 
 
-def main():
-    """
-    function for example usage; not code for actual project (would need to parameterize)
-    currently returns dict of len 4202
-    """
+if __name__ == "__main__":
     tweets = gt.read_tweets_with_metadata('goldenglobes.tab')
     with open('categories.json') as categories_file:
         categories = json.load(categories_file)
-    return get_award_relationships(tweets, categories)
+    print get_award_relationships(tweets, categories)
