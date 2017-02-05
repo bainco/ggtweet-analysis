@@ -39,8 +39,10 @@ if __name__ == "__main__":
     # Load in tweets
     tweets = read_tweets_with_metadata('goldenglobes.tab')
 
-    # Initilaize names list
+    #BABY_NAMES = BABY_NAMES[:1000]
     initialize_names()
-
-    # print a test result
-    print get_names("Vince Vaughn hello hellow hello.")
+    print get_names("Vince Vaughn hello hellow hello Alex Chen.")
+    # EXAMPLE:
+    for aTweet in tweets:
+        if aTweet['text'][:2] != 'RT':
+            pass
