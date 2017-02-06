@@ -26,7 +26,7 @@ def findWinners(tweetsByCat):
                 else:
                     potential_dict[name] = 1
         # print potential_dict
-        award_winner = max(potential_dict.iteritems(), key=operator.itemgetter(1))[0]
+        award_winner = max(potential_dict.iteritems(), key = operator.itemgetter(1))[0]
         if award_winner[0] == '@':
             award_winner_name = lookup_handle(award_winner)
         else:

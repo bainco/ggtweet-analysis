@@ -28,7 +28,6 @@ def get_award_relationships(tweets, categories):
                 award_relationships[ret_category] = [tweet['text']]
     return award_relationships
 
-
 if __name__ == "__main__":
     tweets = gt.read_tweets_with_metadata('goldenglobes.tab')
     with open('categories.json') as categories_file:
