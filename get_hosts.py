@@ -3,7 +3,7 @@ import get_award_relationships as ga
 import name_proc as np
 import json
 import operator
-# from twitter_connect import *
+from twitter_connect import *
 
 
 def findHosts(tweets):
@@ -18,10 +18,16 @@ def findHosts(tweets):
                 else:
                     hosts_potential[name] = 1
 
-    print "HOSTS??: ", str(hosts_potential)
+    #print "HOSTS??: ", str(hosts_potential)
     host_name = max(hosts_potential.iteritems(), key = operator.itemgetter(1))[0]
-    print "HOST: ", host_name
-    return host_name
+
+    if host_name[0] == '@':
+        host_actual_name = lookup_handle(host_name)
+    else:
+        host_actual_name = host_name
+
+    #print "HOST: ", host_actual_name
+    return host_actual_name
 
 if __name__ == "__main__":
     np.initialize_names()

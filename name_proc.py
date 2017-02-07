@@ -6,7 +6,8 @@ BABY_NAMES = []
 
 def initialize_names():
     # Load in the baby names
-    with open('yob2015.txt','r') as f:
+    # These names are from the US social security database
+    with open('baby_names.txt','r') as f:
         reader = csv.reader(f)
         for row in reader:
             BABY_NAMES.append(row[0])
@@ -25,11 +26,12 @@ def get_names(aTweet):
     possible_names = set()
     tokens = tokenize(aTweet)
     for i in range(len(tokens) - 1):
-        if (tokens[i] in BABY_NAMES) and tokens[i+1][0].isupper() and tokens[i+1].isalnum():
+        if (tokens[i] in BABY_NAMES) and tokens[i+1][0].isupper() and tokens[i+1]:
             possible_names.add((" ".join([tokens[i], tokens[i + 1]])))
-        elif (tokens[i][0] == "@"):
+        elif (tokens[i][0] == "@" and "CNN" not in tokens[i]):
             possible_names.add(tokens[i])
-
+        elif tokens[i][0] == "#" and "Golden" not in tokens[i]:
+            possible_names.add(tokens[i])
     return possible_names
 
 

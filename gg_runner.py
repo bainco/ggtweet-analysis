@@ -18,4 +18,4 @@ if __name__ == "__main__":
   #get winners
   tweets_by_cat = gw.getTweetsByCategory(tweets)
   award_winners = gw.findWinners(tweets_by_cat)
-  print "WINNERS:", str(award_winners)
+  #print "WINNERS:", str(award_winners)

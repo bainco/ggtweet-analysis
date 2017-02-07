@@ -3,7 +3,7 @@ import get_award_relationships as ga
 import name_proc as np
 import json
 import operator
-# from twitter_connect import *
+from twitter_connect import *
 
 def getTweetsByCategory(tweets):
     with open('categories.json') as categories_file:
@@ -23,14 +23,16 @@ def findWinners(tweetsByCat):
                     potential_dict[name] += 1
                 else:
                     potential_dict[name] = 1
-        # print potential_dict
+        # print potential_dict        
         award_winner = max(potential_dict.iteritems(), key = operator.itemgetter(1))[0]
-        # if award_winner[0] == '@':
-        #     award_winner_name = lookup_handle(award_winner)
-        # else:
-        #     award_winner_name = award_winner
-        print "AWARD: ", key, ", WINNER:", award_winner
-        awards[key] = award_winner
+        if award_winner[0] == '@':
+            award_winner_name = lookup_handle(award_winner)
+        elif award_winner[0] == '#':
+            award_winner_name = award_winner[1:]
+        else:
+            award_winner_name = award_winner
+        print "AWARD: ", key, ", WINNER:", award_winner_name
+        awards[key] = award_winner_name
     return awards
 
 
