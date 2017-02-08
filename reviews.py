@@ -1,6 +1,8 @@
 import re
 import globes_tweets as gt
 import json
+import get_award_relationships as rel
+import operator 
 
 positives = ['good', 'nice', 'terrific', 'great', 'amazing', 'proud']
 negatives = ['bad', 'terrible', 'horrific', 'horrible', 'atrocious', 'hypocrisy', 'irony']
@@ -33,7 +35,7 @@ def rate_from_tweet(tweet, positives, negatives):
 
 	return total
 
-def most_controversial_award(relationships, tweets, positives, negatives, flag):
+def most_controversial_award(relationships, positives, negatives):
 	"""Takes in the relationships between a tweetStringID and an award 
 	in the form of a dictionary. Also takes in the list of tweets. 
 
@@ -41,38 +43,22 @@ def most_controversial_award(relationships, tweets, positives, negatives, flag):
 	is the award and the value is the cumulation of returned totals returned
 	from rate_from_tweet for tweets related to that award. 
 
-	Returns: a list of most controversial(flag = true) or agreed (flag = false) awards (key with the lowest value)"""
+	Returns: Prints both the most agreeable and most controversial awards 
+	based on a rating given from rate_from_tweet function."""
 	ratings = {}
 	for relationship in relationships:
-		for tweet in tweets:
-			if tweet['tweetIDString'] == relationship:
-				if relationships[relationship] in ratings:
-					ratings[relationships[relationship]] += rate_from_tweet(tweet['text'], positives, negatives)
-				else:
-					ratings[relationships[relationship]] = rate_from_tweet(tweet['text'], positives, negatives)
+		for tweet in relationships[relationship]:
+			if relationship in ratings:
+				ratings[relationship] += rate_from_tweet(tweet['text'], positives, negatives)
+			else:
+				ratings[relationship] = rate_from_tweet(tweet['text'], positives, negatives)
 
-	controversial = []
+	agreeable = max(ratings.values())
+	controversial = min(ratings.values())	
 
-	if flag:
-		value = 1000000
-		for rating in ratings: 
-			if ratings[rating] == value: 
-				controversial.append(rating)
-			if ratings[rating] < value:
-				controversial = []
-				controversial.append(rating)
-				value = ratings[rating]
-	else:
-		value = -1000000
-		for rating in ratings: 
-			if ratings[rating] == value: 
-				controversial.append(rating)
-			if ratings[rating] > value:
-				controversial = []
-				controversial.append(rating)
-				value = ratings[rating]
+	print "The most agreed upon award(s): " + ', '.join(str(e) for e in [key for key, value in ratings.items() if value == agreeable])
+	print "The most controversial award(s): " + ', '.join(str(e) for e in [key for key, value in ratings.items() if value == controversial])
 
-	return controversial
 
 def main():
     """
@@ -81,5 +67,5 @@ def main():
     tweets = gt.read_tweets_with_metadata('goldenglobes.tab')
     with open('categories.json') as categories_file:
         categories = json.load(categories_file)
-    return most_controversial_award(get_award_relationships(tweets, categories), tweets, positives, negatives, False)
+    return most_controversial_award(rel.get_award_relationships(tweets, categories), positives, negatives)
 
