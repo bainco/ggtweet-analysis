@@ -14,9 +14,10 @@ def get_presenters(award_to_tweets, exclude = []):
 def get_presenters_of_category(tweets, exclude):
     presenters = []
     presenter_totals = {}
-    presenter_keywords = ['presents', 'present', 'presenting', 'introduce', 'introduces', 'introducing', 'presenters', 'presenter']
+    presenter_keywords = ['presents', 'present', 'presenting', 'introduce', 'introduces', 'introducing', 'presenters', 'presenter', 'presented']
     for tweet in tweets:
         if any(keyword in tweet for keyword in presenter_keywords):
+            # Probalby also check to see if this person isn't the winner
             for name in np.get_names(tweet):
                 translated_name = name
                 if name[0] == '@':
