@@ -40,8 +40,8 @@ def findWinners(tweetsByCat):
              award_winner_name = award_winner[1:]
         else:
              award_winner_name = award_winner
-        #print "AWARD: ", key
-        #print "        WINNER:", award_winner
+        print "AWARD: ", key
+        print "        WINNER:", award_winner
         awards[key] = award_winner
         winner_lower = award_winner.lower().replace(" ", "")
         # print "award_lower:", winner_lower
