@@ -4,14 +4,14 @@ import name_proc as np
 import json
 import twitter_connect as tc
 
-def get_presenters(award_to_tweets):
+def get_presenters(award_to_tweets, exclude = []):
     categories_to_presenters = {}
     np.initialize_names()
     for category in award_to_tweets:
-        categories_to_presenters[category] = get_presenters_of_category(award_to_tweets[category])
+        categories_to_presenters[category] = get_presenters_of_category(award_to_tweets[category], exclude)
     return categories_to_presenters
 
-def get_presenters_of_category(tweets):
+def get_presenters_of_category(tweets, exclude):
     presenters = []
     presenter_totals = {}
     presenter_keywords = ['presents', 'present', 'presenting', 'introduce', 'introduces', 'introducing', 'presenters', 'presenter']
@@ -23,9 +23,9 @@ def get_presenters_of_category(tweets):
                     translated_name = tc.lookup_handle(name)
                 elif name[0] == '#':
                     translated_name = name[1:]
-                if translated_name in presenter_totals.keys():
+                if translated_name in presenter_totals.keys() and translated_name not in exclude:
                     presenter_totals[translated_name] += 1
-                else:
+                elif translated_name not in exclude:
                     presenter_totals[translated_name] = 1
     for p in presenter_totals:
         if presenter_totals[p] > 1: # TODO placeholder value
