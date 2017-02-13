@@ -6,6 +6,7 @@ import operator
 import get_presenters as gp
 import get_hosts as gh
 import get_winners as gw
+import reviews as rev 
 
 
 
@@ -19,3 +20,6 @@ if __name__ == "__main__":
   tweets_by_cat = gw.getTweetsByCategory(tweets)
   award_winners = gw.findWinners(tweets_by_cat)
   #print "WINNERS:", str(award_winners)
+
+  #sentiment analysis
+  rev.sentiment()

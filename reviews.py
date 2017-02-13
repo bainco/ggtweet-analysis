@@ -59,9 +59,9 @@ def most_controversial_award(relationships, positives, negatives):
 	print "The most agreed upon award(s): " + ', '.join(str(e) for e in [key for key, value in ratings.items() if value == agreeable])
 	print "The most controversial award(s): " + ', '.join(str(e) for e in [key for key, value in ratings.items() if value == controversial])
 
-
-tweets = gt.read_tweets_with_metadata('goldenglobes.tab')
-with open('categories.json') as categories_file:
-    categories = json.load(categories_file)
-most_controversial_award(rel.get_award_relationships(tweets, categories), positives, negatives)
+def sentiment():
+	tweets = gt.read_tweets_with_metadata('goldenglobes.tab')
+	with open('categories.json') as categories_file:
+	    categories = json.load(categories_file)
+	most_controversial_award(rel.get_award_relationships(tweets, categories), positives, negatives)
 
