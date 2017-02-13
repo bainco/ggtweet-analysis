@@ -3,6 +3,7 @@ import get_award_relationships as ga
 import name_proc as np
 import json
 import twitter_connect as tc
+import get_winners as gw
 
 def get_presenters(award_to_tweets, exclude = []):
     categories_to_presenters = {}
@@ -37,6 +38,11 @@ if __name__ == "__main__":
     tweets = gt.read_tweets_with_metadata('goldenglobes.tab')
     with open('categories.json') as categories_file:
         categories = json.load(categories_file)
-    categories_to_presenters = get_presenters(ga.get_award_relationships(tweets, categories))
+    award_to_tweets = ga.get_award_relationships(tweets, categories)
+    winners = gw.findWinners(award_to_tweets).values()
+    winners.append('GoldenGlobes')
+    winners.append('Golden Globe Awards')
+    winners.append('Golden Globe')
+    categories_to_presenters = get_presenters(award_to_tweets, winners)
     for category in categories_to_presenters:
         print 'AWARD:', category, ', PRESENTERS:', ', '.join(categories_to_presenters[category])
