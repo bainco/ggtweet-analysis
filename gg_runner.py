@@ -15,16 +15,11 @@ if __name__ == "__main__":
   np.initialize_names()
   tweets = gt.read_tweets_with_metadata('goldenglobes.tab')
 
-  #get hosts
-  host = gh.findHosts(tweets)
-  print "HOST:", host, "\n"
+  print "Sorting tweets by category..."
+  (tweets_by_cat, host) = gw.getTweetsByCategory(tweets)
+  print "Found Host:", host
 
-  #get categories
-  print "CATEGORIES"
-  ra.get_categories(tweets)
-  #get winners
   print 'AWARD WINNERS AND NOMINEES'
-  tweets_by_cat = gw.getTweetsByCategory(tweets)
   award_winners = gw.findWinners(tweets_by_cat)
   #print "WINNERS:", str(award_winners)
   print "\n"
