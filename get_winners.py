@@ -5,6 +5,7 @@ import json
 import operator
 import regex_awards as ra
 from twitter_connect import *
+import os
 
 def getTweetsByCategory(tweets):
 
