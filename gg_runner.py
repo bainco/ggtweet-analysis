@@ -7,6 +7,7 @@ import get_presenters as gp
 import get_hosts as gh
 import get_winners as gw
 import reviews as rev
+import regex_awards as ra
 
 
 
@@ -18,8 +19,11 @@ if __name__ == "__main__":
   host = gh.findHosts(tweets)
   print "HOST:", host, "\n"
 
+  #get categories
+  print "CATEGORIES"
+  ra.get_categories(tweets)
   #get winners
-  print 'AWARD WINNERS'
+  print 'AWARD WINNERS AND NOMINEES'
   tweets_by_cat = gw.getTweetsByCategory(tweets)
   award_winners = gw.findWinners(tweets_by_cat)
   #print "WINNERS:", str(award_winners)
@@ -37,4 +41,5 @@ if __name__ == "__main__":
   print "\n"
 
   #sentiment analysis
+  print "SENTIMENT ANALYSIS"
   rev.sentiment()
