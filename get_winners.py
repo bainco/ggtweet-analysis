@@ -3,11 +3,19 @@ import get_award_relationships as ga
 import name_proc as np
 import json
 import operator
-# from twitter_connect import *
+import regex_awards as ra
+from twitter_connect import *
 
 def getTweetsByCategory(tweets):
-    with open('categories.json') as categories_file:
-        categories = json.load(categories_file)
+
+    if os.path.isfile('categories.json'):
+        print "Given categories!"
+        with open('categories.json') as categories_file:
+            categories = json.load(categories_file)
+    else:
+        print "No categories given... Guessing categories."
+        categories = list(ra.guess_categories(tweets))
+
     return ga.get_award_relationships(tweets, categories)
 
 def findWinners(tweetsByCat):
@@ -25,14 +33,14 @@ def findWinners(tweetsByCat):
                     potential_dict[name] = 1
         # print "POT:", potential_dict
         award_winner = max(potential_dict.iteritems(), key = operator.itemgetter(1))[0]
-        # if award_winner[0] == '@':
-        #     award_winner_name = lookup_handle(award_winner)
-        # elif award_winner[0] == '#':
-        #     award_winner_name = award_winner[1:]
-        # else:
-        #     award_winner_name = award_winner
-        print "AWARD: ", key
-        print "        WINNER:", award_winner
+        if award_winner[0] == '@':
+             award_winner_name = lookup_handle(award_winner)
+        elif award_winner[0] == '#':
+             award_winner_name = award_winner[1:]
+        else:
+             award_winner_name = award_winner
+        #print "AWARD: ", key
+        #print "        WINNER:", award_winner
         awards[key] = award_winner
         winner_lower = award_winner.lower().replace(" ", "")
         # print "award_lower:", winner_lower

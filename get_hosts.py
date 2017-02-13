@@ -5,20 +5,17 @@ import json
 import operator
 from twitter_connect import *
 
-
-def findHosts(tweets):
-    hosts_potential = {}
+def findHosts(tweet, hosts_potential):
     host_keywords = ['host', 'hosts', 'hosting', 'monologue']
-    for t in tweets:
-        tweet = t['text']
-        if any(keyword in tweet for keyword in host_keywords):
-            for name in np.get_names(tweet):
-                if name in hosts_potential:
-                    hosts_potential[name] += 1
-                else:
-                    hosts_potential[name] = 1
+    if any(keyword in tweet for keyword in host_keywords):
+        for name in np.get_names(tweet):
+            if name in hosts_potential:
+                hosts_potential[name] += 1
+            else:
+                hosts_potential[name] = 1
+    return hosts_potential
 
-    #print "HOSTS??: ", str(hosts_potential)
+def guess_host(hosts_potential):
     host_name = max(hosts_potential.iteritems(), key = operator.itemgetter(1))[0]
 
     if host_name[0] == '@':
@@ -29,7 +26,8 @@ def findHosts(tweets):
     #print "HOST: ", host_actual_name
     return host_actual_name
 
+
 if __name__ == "__main__":
     np.initialize_names()
     tweets = gt.read_tweets_with_metadata('goldenglobes.tab')
-    a = findHosts(tweets)
+    #a = findHosts(tweets)
